@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
 from .views import health_check
+from django_prometheus import exports
 
 from drf_spectacular.views import (
     SpectacularAPIView,
@@ -31,6 +32,7 @@ urlpatterns = [
         "api/prescriptions/",
         include("prescriptions.urls"),
     ),
+    path("api/payments/", include("payments.urls")),
 
     # OpenAPI
     path(
@@ -51,4 +53,5 @@ urlpatterns = [
     health_check,
     name="health-check",
 ),
+path("metrics/", exports.ExportToDjangoView, name="prometheus-metrics"),
 ]
